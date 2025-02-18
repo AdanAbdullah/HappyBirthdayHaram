@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday, Little Sister!</title>
+  <style>
+    /* Base Styles */
+    body {
+      margin: 0;
+      padding: 0;
+      background: #ffebcc;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      min-height: 100vh;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    h1 {
+      color: #ff9900;
+      font-size: 3rem;
+      text-shadow: 0 0 15px rgba(255, 165, 0, 0.7);
+      animation: fadeIn 2s ease-in-out, glow 2s infinite alternate;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 1.5rem;
+      color: #cc6600;
+      animation: slideUp 2s ease-in-out, glow 2s infinite alternate;
+      margin-bottom: 20px;
+    }
+    .btn {
+      background: #ff9900;
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      font-size: 1.2rem;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-bottom: 30px;
+      animation: bounce 2s infinite, glow 2s infinite alternate;
+    }
+    .btn:hover {
+      background: #cc6600;
+    }
+    /* Background Animation */
+    .background-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, #ffebcc, #ffcc99, #ff9966);
+      animation: gradientShift 10s infinite alternate;
+      z-index: 1;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes glow {
+      0% { text-shadow: 0 0 10px rgba(255, 165, 0, 0.7); }
+      100% { text-shadow: 0 0 20px rgba(255, 165, 0, 1); }
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+    /* Floating Elements Containers */
+    .balloons, .floating-hearts, .confetti, .fireworks, .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 2;
+    }
+    /* CSS Balloon */
+    .balloon {
+      position: absolute;
+      width: 40px;
+      height: 50px;
+      background: radial-gradient(circle at 50% 40%, #FF66B2, #FF3366);
+      border-radius: 50% 50% 45% 45%;
+      animation: floatBalloon 8s linear infinite;
+    }
+    .balloon::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 15px;
+      background: #FF3366;
+    }
+    @keyframes floatBalloon {
+      from { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+      to { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+    /* Floating Hearts */
+    .floating-heart {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: red;
+      clip-path: polygon(50% 0%, 100% 35%, 80% 100%, 50% 75%, 20% 100%, 0% 35%);
+      animation: floatHeart 6s linear infinite;
+    }
+    @keyframes floatHeart {
+      from { transform: translateY(100vh) scale(1); opacity: 1; }
+      to { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+    }
+    /* Confetti */
+    .confetti-piece {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: gold;
+      animation: fallConfetti 4s linear infinite;
+    }
+    @keyframes fallConfetti {
+      from { transform: translateY(0) rotate(0deg); opacity: 1; }
+      to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    /* Fireworks */
+    .firework {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: #fff;
+      border-radius: 50%;
+      animation: explode 1s ease-out forwards;
+    }
+    @keyframes explode {
+      0% { transform: scale(0); opacity: 1; }
+      100% { transform: scale(5); opacity: 0; }
+    }
+    /* Stars */
+    .star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 2s infinite ease-in-out;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+    /* Cursor Trail Hearts */
+    .cursor-heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      clip-path: polygon(50% 0%, 100% 35%, 80% 100%, 50% 75%, 20% 100%, 0% 35%);
+      pointer-events: none;
+      animation: cursorFloat 1s ease-out forwards;
+      z-index: 20;
+    }
+    @keyframes cursorFloat {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0); opacity: 0; }
+    }
+    /* Photo Gallery */
+    .photo-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .photo-box {
+      width: 150px;
+      height: 150px;
+      border: 3px solid #ff9900;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      transition: transform 0.3s;
+    }
+    .photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .photo-box:hover {
+      transform: scale(1.1);
+    }
+    /* Animated Cake */
+    .cake-box {
+      margin: 30px auto;
+      width: 300px;
+      height: 200px;
+      position: relative;
+      cursor: pointer;
+    }
+    .cake {
+        background-image: url(cake.png);
+      width: 100%;
+      height: 100%;
+      position: relative;
+      border: 3px solid #d2691e;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    /* The icing at the top of the cake */
+    .cake::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 20px;
+      background: #fff;
+    }
+    /* Cake pieces: now with visible background gradients to simulate cake texture */
+    .cake-left, .cake-right {
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(to bottom, #f5deb3, #e0cfa1);
+    }
+    .cake-left {
+      left: 0;
+      animation: cutLeft 4s infinite alternate;
+    }
+    .cake-right {
+      right: 0;
+      animation: cutRight 4s infinite alternate;
+    }
+    @keyframes cutLeft {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(-20px); }
+      100% { transform: translateX(0); }
+    } 
+     @keyframes cutRight {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(20px); }
+      100% { transform: translateX(0); }
+    }
+    /* Special cake cut animations triggered on click */
+    @keyframes specialCutLeft {
+      0% { transform: translateX(0) rotate(0deg); }
+      50% { transform: translateX(-100px) rotate(-15deg); }
+      100% { transform: translateX(-100%) rotate(0deg); }
+    }
+    @keyframes specialCutRight {
+      0% { transform: translateX(0) rotate(0deg); }
+      50% { transform: translateX(100px) rotate(15deg); }
+      100% { transform: translateX(100%) rotate(0deg); }
+    }
+    /* Media Queries */
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      p { font-size: 1.2rem; }
+      .photo-gallery { flex-direction: column; gap: 10px; }
+      .photo-box { width: 100px; height: 100px; }
+      .cake-box { width: 250px; height: 150px; }
+    }
+    @media (max-width: 1446px) and (max-height: 1285){
+      *{
+        overflow: hidden;
+      }
+    }
+    /* Mobile Devices (Portrait) */
+@media (max-width: 600px) {
+  h1 { 
+    font-size: 2rem;
+    margin-top: 20px;
+  }
+  p {
+    font-size: 1.2rem;
+    margin: 0 15px 15px;
+  }
+  .btn {
+    padding: 12px 24px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+  .photo-gallery {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .photo-box {
+    width: 120px;
+    height: 120px;
+  }
+  .cake-box {
+    width: 220px;
+    height: 140px;
+  }
+  /* Slow down cake animation on mobile */
+  .cake-left, .cake-right {
+    animation-duration: 6s;
+  }
+}
+
+/* Tablets and Small Screens */
+@media (min-width: 601px) and (max-width: 768px) {
+  h1 {
+    font-size: 2.8rem;
+  }
+  p {
+    font-size: 1.4rem;
+  }
+  .photo-box {
+    width: 130px;
+    height: 130px;
+  }
+  .cake-box {
+    width: 280px;
+    height: 180px;
+  }
+}
+
+/* Landscape Orientation Handling */
+@media (max-width: 768px) and (orientation: landscape) {
+  .container {
+    padding-top: 10px;
+  }
+  h1 {
+    font-size: 2rem;
+    margin: 10px 0;
+  }
+  .photo-gallery {
+    flex-direction: row;
+    gap: 8px;
+  }
+  .photo-box {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* Large Screens Height Adjustment */
+@media (max-width: 1446px) and (max-height: 1285px) {
+  body {
+    overflow: hidden;
+  }
+  .container {
+    padding-top: 50px;
+  }
+}
+
+/* Touch Device Adaptation */
+@media (hover: none) {
+  .cursor-heart {
+    display: none;
+  }
+  .btn {
+    padding: 15px 30px;
+  }
+}
+  </style>
+</head>
+<body>
+  <!-- Background Elements -->
+  <div class="background-animation"></div>
+  <div class="balloons"></div>
+  <div class="floating-hearts"></div>
+  <div class="confetti"></div>
+  <div class="fireworks"></div>
+  <div class="stars"></div>
+  
+  <!-- Main Content -->
+  <div class="container">
+    <h1>Happy Birthday, Haram! 🎂🎈</h1>
+    <p id="birthday-message">Wishing you a day filled with love, laughter, and magic!</p>
+    <button class="btn" onclick="showSurprise()">Click Here!</button>
+    
+    <!-- Photo Gallery Section -->
+    <div class="photo-gallery">
+      <div class="photo-box"><img src="haram1.jpg" alt="Sister Picture"></div>
+      <div class="photo-box"><img src="haram2.jpg" alt="Sister Picture"></div>
+      <div class="photo-box"><img src="haram3.jpg" alt="Sister Picture"></div>
+    </div>
+    
+    <!-- Interactive Cake Section -->
+    <div class="cake-box">
+      <div class="cake">
+        <div class="cake-left"></div>
+        <div class="cake-right"></div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Surprise button: show message and trigger fireworks
+    function showSurprise() {
+      alert('Happy Birthday, My dearest little sister! May Allah bring joy and magic to your lives!');
+      createFireworks();
+    }
+    
+    function createFireworks() {
+      for (let i = 0; i < 20; i++) {
+        let firework = document.createElement('div');
+        firework.classList.add('firework');
+        firework.style.left = (Math.random() * 100) + 'vw';
+        firework.style.top = (Math.random() * 100) + 'vh';
+        document.querySelector('.fireworks').appendChild(firework);
+        setTimeout(() => firework.remove(), 1000);
+      }
+    }
+    
+    // Create floating elements
+    function createElement(className, container, duration) {
+      const el = document.createElement('div');
+      el.classList.add(className);
+      document.querySelector(container).appendChild(el);
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.top = Math.random() * 100 + 'vh';
+      el.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      setTimeout(() => el.remove(), duration);
+    }
+    
+    setInterval(() => createElement('balloon', '.balloons', 8000), 1000);
+    setInterval(() => createElement('floating-heart', '.floating-hearts', 6000), 1500);
+    setInterval(() => createElement('confetti-piece', '.confetti', 4000), 300);
+    setInterval(() => {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.top = Math.random() * 100 + 'vh';
+      document.querySelector('.stars').appendChild(star);
+      setTimeout(() => star.remove(), 3000);
+    }, 200);
+    
+    // Cursor trail effect
+    document.addEventListener('mousemove', function(e) {
+      const cursorHeart = document.createElement('div');
+      cursorHeart.classList.add('cursor-heart');
+      cursorHeart.style.left = e.pageX + 'px';
+      cursorHeart.style.top = e.pageY + 'px';
+      document.body.appendChild(cursorHeart);
+      setTimeout(() => cursorHeart.remove(), 1000);
+    });
+    
+    // Changing birthday message dynamically
+    function changeMessage() {
+      const messages = [
+        "You light up our world!",
+        "You're the best sister ever!",
+        "Your smile is contagious!",
+        "May all your dreams come true!"
+      ];
+      let index = 0;
+      setInterval(() => {
+        document.getElementById('birthday-message').textContent = messages[index];
+        index = (index + 1) % messages.length;
+      }, 3000);
+    }
+    changeMessage();
+    
+    // SPECIAL CAKE FUNCTIONALITY:
+    // When the cake is clicked, trigger a dramatic "cut" animation.
+    function specialCakeAction() {
+      const left = document.querySelector('.cake-left');
+      const right = document.querySelector('.cake-right');
+      // Override current animation with special animations
+      left.style.animation = 'specialCutLeft 1s forwards';
+      right.style.animation = 'specialCutRight 1s forwards';
+      alert("oh no some one take your cake piece find him hurry!  ");
+      // After 1.5 seconds, revert to normal animation
+      setTimeout(() => {
+        left.style.animation = 'cutLeft 4s infinite alternate';
+        right.style.animation = 'cutRight 4s infinite alternate';
+      }, 1500);
+    }
+    
+    document.querySelector('.cake-box').addEventListener('click', specialCakeAction);
+  </script>
+</body>
+</html>
